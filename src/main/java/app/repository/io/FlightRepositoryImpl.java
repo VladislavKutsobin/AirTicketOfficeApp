@@ -12,17 +12,44 @@ public class FlightRepositoryImpl implements FlightRepository{
     private static final String FILE_PATH_FLIGHTS = "src/main/resources/flights.csv";
 
     @Override
-    public List<Flight> searchByDeparture(String departurePoint) {
+    public List<Flight> searchByDeparture(String departurePoint) throws IOException {
+        File fileWithFlights = new File(FILE_PATH_FLIGHTS);
+        FileReader fr = new FileReader(fileWithFlights);
+        String line;
+        List<Flight> flightsByDepartureList = new ArrayList<>();
+
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine())!=null) {
+                String[] lineSplitArray = line.split(",");
+                if(lineSplitArray[1].equals(departurePoint)) {
+                    Integer flightId = Integer.parseInt(lineSplitArray[0]);
+                    String flightDeparturePoint = lineSplitArray[1];
+                    String flightArrivalPoint = lineSplitArray[2];
+                    String flightPlaneInfo = lineSplitArray[3];
+                    Integer flightEconomClsCapacity = Integer.parseInt(lineSplitArray[4]);
+                    Integer flightBusinessClsCapacity = Integer.parseInt(lineSplitArray[5]);
+                    flightsByDepartureList.add(new Flight(
+                            flightId,
+                            flightDeparturePoint,
+                            flightArrivalPoint,
+                            flightPlaneInfo,
+                            flightEconomClsCapacity,
+                            flightBusinessClsCapacity
+                    ));
+                }
+            }
+        }
+
+        return flightsByDepartureList;
+    }
+
+    @Override
+    public List<Flight> searchByArrival(String arrivalPoint) throws IOException {
         return null;
     }
 
     @Override
-    public List<Flight> searchByArrival(String arrivalPoint) {
-        return null;
-    }
-
-    @Override
-    public List<Flight> searchByDate(String date) {
+    public List<Flight> searchByDate(String date) throws IOException {
         return null;
     }
 
