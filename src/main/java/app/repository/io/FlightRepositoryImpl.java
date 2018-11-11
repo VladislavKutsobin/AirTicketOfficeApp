@@ -45,7 +45,34 @@ public class FlightRepositoryImpl implements FlightRepository{
 
     @Override
     public List<Flight> searchByArrival(String arrivalPoint) throws IOException {
-        return null;
+        File fileWithFlights = new File(FILE_PATH_FLIGHTS);
+        FileReader fr = new FileReader(fileWithFlights);
+        String line;
+        List<Flight> flightsByArrivalList = new ArrayList<>();
+
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine())!=null) {
+                String[] lineSplitArray = line.split(",");
+                if(lineSplitArray[2].equals(arrivalPoint)) {
+                    Integer flightId = Integer.parseInt(lineSplitArray[0]);
+                    String flightDeparturePoint = lineSplitArray[1];
+                    String flightArrivalPoint = lineSplitArray[2];
+                    String flightPlaneInfo = lineSplitArray[3];
+                    Integer flightEconomClsCapacity = Integer.parseInt(lineSplitArray[4]);
+                    Integer flightBusinessClsCapacity = Integer.parseInt(lineSplitArray[5]);
+                    flightsByArrivalList.add(new Flight(
+                            flightId,
+                            flightDeparturePoint,
+                            flightArrivalPoint,
+                            flightPlaneInfo,
+                            flightEconomClsCapacity,
+                            flightBusinessClsCapacity
+                    ));
+                }
+            }
+        }
+
+        return flightsByArrivalList;
     }
 
     @Override
