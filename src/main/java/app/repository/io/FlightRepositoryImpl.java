@@ -67,7 +67,34 @@ public class FlightRepositoryImpl implements FlightRepository{
     }
 
     @Override
-    public Flight getById(Integer integer) {
+    public Flight getById(Integer integer) throws IOException {
+        File file = new File(FILE_PATH_FLIGHTS);
+        FileReader fr = new FileReader(file);
+        try(BufferedReader br = new BufferedReader(fr)) {
+            String line;
+            while((line = br.readLine())!=null) {
+                String [] flightInfoSplitByComa = line.split(",");
+                String flightIdStr = flightInfoSplitByComa[0];
+                if(flightIdStr.equals(Integer.toString(integer))) {
+                    Integer flightId = Integer.parseInt(flightIdStr);
+                    String flightDeparturePoint = flightInfoSplitByComa[1];
+                    String flightArrivalPoint = flightInfoSplitByComa[2];
+                    String flightPlaneInfo = flightInfoSplitByComa[3];
+                    Integer flightEconomClsCapacity = Integer.parseInt(flightInfoSplitByComa[4]);
+                    Integer flightBusinessClsCapacity = Integer.parseInt(flightInfoSplitByComa[5]);
+
+                    return new Flight(
+                            flightId,
+                            flightDeparturePoint,
+                            flightArrivalPoint,
+                            flightPlaneInfo,
+                            flightEconomClsCapacity,
+                            flightBusinessClsCapacity
+                    );
+                }
+
+            }
+        }
         return null;
     }
 }
