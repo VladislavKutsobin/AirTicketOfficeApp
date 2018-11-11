@@ -41,8 +41,29 @@ public class FlightRepositoryImpl implements FlightRepository{
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer integer) throws IOException{
+        File fileWithFlights = new File(FILE_PATH_FLIGHTS);
+        FileReader fr = new FileReader(fileWithFlights);
+        List<String> flightsList = new ArrayList<>();
+        String line;
 
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine())!=null) {
+                String [] splitArray = line.split(",");
+                if(splitArray[0].equals(Integer.toString(integer))) {
+                    continue;
+                } else {
+                    flightsList.add(line);
+                }
+            }
+
+            FileWriter fw = new FileWriter(fileWithFlights, false);
+            try(BufferedWriter bw = new BufferedWriter(fw)) {
+                for(String str : flightsList) {
+                    bw.write(str + "\n");
+                }
+            }
+        }
     }
 
     @Override
