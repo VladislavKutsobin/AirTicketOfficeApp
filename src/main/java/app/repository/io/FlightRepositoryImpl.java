@@ -1,5 +1,6 @@
 package main.java.app.repository.io;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import main.java.app.model.Flight;
 import main.java.app.repository.FlightRepository;
 
@@ -68,6 +69,7 @@ public class FlightRepositoryImpl implements FlightRepository{
 
     @Override
     public Flight getById(Integer integer) throws IOException {
+        //need add date
         File file = new File(FILE_PATH_FLIGHTS);
         FileReader fr = new FileReader(file);
         try(BufferedReader br = new BufferedReader(fr)) {
