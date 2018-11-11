@@ -9,5 +9,5 @@ public interface GenericRepository<T, ID> {
     void delete(ID id);
     List<T> findAll() throws FileNotFoundException, IOException;
 
-    T getById(ID id);
+    T getById(ID id) throws IOException;
 }
