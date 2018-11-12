@@ -74,6 +74,30 @@ public class PassengerRepositoryImpl implements PassengerRepository {
 
     @Override
     public Passenger getById(Integer integer) throws IOException {
+        File file = new File(FILE_PASSENGER_PATH);
+        FileReader fr = new FileReader(file);
+        try(BufferedReader br = new BufferedReader(fr)) {
+            String line;
+            while((line = br.readLine())!=null) {
+                String [] PassengerInfoArray = line.split(",");
+                String PassengerIdStr = PassengerInfoArray[0];
+                if(PassengerIdStr.equals(Integer.toString(integer))) {
+                    Integer passengerId = Integer.parseInt(PassengerIdStr);
+                    String passengerFirstName = PassengerInfoArray[1];
+                    String passengerLastName = PassengerInfoArray[2];
+                    Integer passengerAge = Integer.parseInt(PassengerInfoArray[3]);
+
+                    return new Passenger(
+                            passengerId,
+                            passengerFirstName,
+                            passengerLastName,
+                            passengerAge
+                    );
+                }
+
+            }
+        }
         return null;
+
     }
 }
