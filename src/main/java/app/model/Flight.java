@@ -10,15 +10,14 @@ public class Flight extends BaseEntity {
     private int businessClsCapacity;
     private String date;
 
-    public Flight(int id, String departurePoint, String arrivalPoint, String plane, int economClsCapacity, int businessClsCapacity) {
+    public Flight(int id, String departurePoint, String arrivalPoint, String plane, int economClsCapacity, int businessClsCapacity, String date) {
         super(id);
         this.departurePoint = departurePoint;
         this.arrivalPoint = arrivalPoint;
         this.plane = plane;
         this.economClsCapacity = economClsCapacity;
         this.businessClsCapacity = businessClsCapacity;
-        Date date = new Date();
-        this.date = date.toString();
+        this.date = date;
     }
 
     public String getDeparturePoint() {
@@ -67,5 +66,11 @@ public class Flight extends BaseEntity {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return super.getId() + "," + departurePoint + "," + arrivalPoint + "," + plane + "," + economClsCapacity + "," +
+                businessClsCapacity + "," + date;
     }
 }

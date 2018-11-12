@@ -28,13 +28,15 @@ public class FlightRepositoryImpl implements FlightRepository{
                     String flightPlaneInfo = lineSplitArray[3];
                     Integer flightEconomClsCapacity = Integer.parseInt(lineSplitArray[4]);
                     Integer flightBusinessClsCapacity = Integer.parseInt(lineSplitArray[5]);
+                    String flightDate = lineSplitArray[6];
                     flightsByDepartureList.add(new Flight(
                             flightId,
                             flightDeparturePoint,
                             flightArrivalPoint,
                             flightPlaneInfo,
                             flightEconomClsCapacity,
-                            flightBusinessClsCapacity
+                            flightBusinessClsCapacity,
+                            flightDate
                     ));
                 }
             }
@@ -60,13 +62,15 @@ public class FlightRepositoryImpl implements FlightRepository{
                     String flightPlaneInfo = lineSplitArray[3];
                     Integer flightEconomClsCapacity = Integer.parseInt(lineSplitArray[4]);
                     Integer flightBusinessClsCapacity = Integer.parseInt(lineSplitArray[5]);
+                    String flightDate = lineSplitArray[6];
                     flightsByArrivalList.add(new Flight(
                             flightId,
                             flightDeparturePoint,
                             flightArrivalPoint,
                             flightPlaneInfo,
                             flightEconomClsCapacity,
-                            flightBusinessClsCapacity
+                            flightBusinessClsCapacity,
+                            flightDate
                     ));
                 }
             }
@@ -77,7 +81,36 @@ public class FlightRepositoryImpl implements FlightRepository{
 
     @Override
     public List<Flight> searchByDate(String date) throws IOException {
-        return null;
+        File fileWithFlights = new File(FILE_PATH_FLIGHTS);
+        FileReader fr = new FileReader(fileWithFlights);
+        String line;
+        List<Flight> flightsByDateList = new ArrayList<>();
+
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine())!=null) {
+                String[] lineSplitArray = line.split(",");
+                if(lineSplitArray[6].equals(date)) {
+                    Integer flightId = Integer.parseInt(lineSplitArray[0]);
+                    String flightDeparturePoint = lineSplitArray[1];
+                    String flightArrivalPoint = lineSplitArray[2];
+                    String flightPlaneInfo = lineSplitArray[3];
+                    Integer flightEconomClsCapacity = Integer.parseInt(lineSplitArray[4]);
+                    Integer flightBusinessClsCapacity = Integer.parseInt(lineSplitArray[5]);
+                    String flightDate = lineSplitArray[6];
+                    flightsByDateList.add(new Flight(
+                            flightId,
+                            flightDeparturePoint,
+                            flightArrivalPoint,
+                            flightPlaneInfo,
+                            flightEconomClsCapacity,
+                            flightBusinessClsCapacity,
+                            flightDate
+                    ));
+                }
+            }
+        }
+
+        return flightsByDateList;
     }
 
     @Override
@@ -136,7 +169,8 @@ public class FlightRepositoryImpl implements FlightRepository{
             for(String lineInList : linesList) {
                 String[] arrSplitByComa = lineInList.split(",");
                 flightsList.add(new Flight(Integer.parseInt(arrSplitByComa[0]), arrSplitByComa[1], arrSplitByComa[2],
-                        arrSplitByComa[3], Integer.parseInt(arrSplitByComa[4]), Integer.parseInt(arrSplitByComa[5])));
+                        arrSplitByComa[3], Integer.parseInt(arrSplitByComa[4]), Integer.parseInt(arrSplitByComa[5]),
+                        arrSplitByComa[6]));
             }
         }
         return flightsList;
@@ -159,6 +193,7 @@ public class FlightRepositoryImpl implements FlightRepository{
                     String flightPlaneInfo = flightInfoSplitByComa[3];
                     Integer flightEconomClsCapacity = Integer.parseInt(flightInfoSplitByComa[4]);
                     Integer flightBusinessClsCapacity = Integer.parseInt(flightInfoSplitByComa[5]);
+                    String flightDate = flightInfoSplitByComa[6];
 
                     return new Flight(
                             flightId,
@@ -166,7 +201,8 @@ public class FlightRepositoryImpl implements FlightRepository{
                             flightArrivalPoint,
                             flightPlaneInfo,
                             flightEconomClsCapacity,
-                            flightBusinessClsCapacity
+                            flightBusinessClsCapacity,
+                            flightDate
                     );
                 }
 
