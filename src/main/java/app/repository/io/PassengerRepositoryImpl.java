@@ -50,7 +50,26 @@ public class PassengerRepositoryImpl implements PassengerRepository {
 
     @Override
     public List<Passenger> findAll() throws FileNotFoundException, IOException {
-        return null;
+        File fileWithFlights = new File(FILE_PASSENGER_PATH);
+        FileReader fr = new FileReader(fileWithFlights);
+        List<String> linesList = new ArrayList<>();
+        List<Passenger> passengersList = new ArrayList<>();
+        String line;
+
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine()) != null) {
+                linesList.add(line);
+            }
+
+            for(String lineInList : linesList) {
+                String[] lineSplitArray = lineInList.split(",");
+                passengersList.add(new Passenger(Integer.parseInt(lineSplitArray[0]),
+                        lineSplitArray[1],
+                        lineSplitArray[2],
+                        Integer.parseInt(lineSplitArray[3])));
+            }
+        }
+        return passengersList;
     }
 
     @Override
