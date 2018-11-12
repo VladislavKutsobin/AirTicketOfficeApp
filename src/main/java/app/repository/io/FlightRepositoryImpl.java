@@ -154,6 +154,53 @@ public class FlightRepositoryImpl implements FlightRepository{
     }
 
     @Override
+    public void decreaseClsCapacity(Flight flight, String cls) throws IOException {
+        File fileWithFlights = new File(FILE_PATH_FLIGHTS);
+        FileReader fr = new FileReader(fileWithFlights);
+        List<String> listWithFlights = new ArrayList<>();
+        String line;
+        String strIdForCompare = Integer.toString(flight.getId());
+
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine())!=null) {
+                listWithFlights.add(line);
+            }
+
+            for(int i=0;i<listWithFlights.size(); i++) {
+                String[] listWithFlightSplitArray = listWithFlights.get(i).split(",");
+                if(strIdForCompare.equals(listWithFlightSplitArray[0])) {
+                    if(cls.equals("E")) {
+                        int changedEconomCapacity = Integer.parseInt(listWithFlightSplitArray[4]);
+                        changedEconomCapacity--;
+                        listWithFlights.set(i, listWithFlightSplitArray[0] + "," + listWithFlightSplitArray[1] + "," +
+                        listWithFlightSplitArray[2] + "," + listWithFlightSplitArray[3] + "," +
+                        changedEconomCapacity + "," + listWithFlightSplitArray[5] + "," + listWithFlightSplitArray[6]);
+                    } else if (cls.equals("B")){
+                        int changedBusinessCapacity = Integer.parseInt(listWithFlightSplitArray[5]);
+                        changedBusinessCapacity--;
+                        listWithFlights.set(i, listWithFlightSplitArray[0] + "," + listWithFlightSplitArray[1] + "," +
+                                listWithFlightSplitArray[2] + "," + listWithFlightSplitArray[3] + "," +
+                                listWithFlightSplitArray[4] + "," + changedBusinessCapacity + ","
+                                + listWithFlightSplitArray[6]);
+                    }
+                }
+            }
+        }
+
+        FileWriter fw = new FileWriter(fileWithFlights);
+        try(BufferedWriter bw = new BufferedWriter(fw)) {
+            for(String str : listWithFlights) {
+                bw.write(str + "\n");
+            }
+        }
+    }
+
+    @Override
+    public void increaseClsCapacity(Flight flight, String cls) throws IOException {
+
+    }
+
+    @Override
     public List<Flight> findAll() throws IOException {
         File fileWithFlights = new File(FILE_PATH_FLIGHTS);
         FileReader fr = new FileReader(fileWithFlights);
