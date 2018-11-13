@@ -11,8 +11,9 @@ public class Runner {
     public static void main(String[] args) throws IOException {
         FlightRepository flightRepository = new FlightRepositoryImpl();
         Flight flight = new Flight(2, "Moscow", "Barcelona", "Boeing Dreamliner",
-                30, 10, "Nov 13 2018");
+                30, 1, "Nov 13 2018");
         //flightRepository.insert(flight);
-        flightRepository.decreaseClsCapacity(flight, "B");
+        //flightRepository.decreaseClsCapacity(flight, "B");
+        //flightRepository.increaseClsCapacity(flight, "B");
     }
 }
