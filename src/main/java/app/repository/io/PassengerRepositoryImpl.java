@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PassengerRepositoryImpl implements PassengerRepository {
-    private static String FILE_PASSENGER_PATH = "src/main/resources/passengers.csv";
+    private static final String FILE_PASSENGER_PATH = "src/main/resources/passengers.csv";
 
     @Override
     public void insert(Passenger passenger) throws IOException {
