@@ -102,6 +102,36 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     @Override
     public Ticket getById(Integer integer) throws IOException {
+        File fileWithTickets = new File(FILE_TICKETS_PATH);
+        FileReader fr = new FileReader(fileWithTickets);
+        String line;
+
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine())!=null) {
+                String[] splitLineArray = line.split(",");
+                Integer ticketId = Integer.parseInt(splitLineArray[0]);
+
+                if(ticketId.equals(integer)) {
+                    String clsInTicket = splitLineArray[3];
+
+                    Integer flightId = Integer.parseInt(splitLineArray[1]);
+                    FlightRepository flightRepository = new FlightRepositoryImpl();
+                    Flight flight = flightRepository.getById(flightId);
+
+                    Integer passengerId = Integer.parseInt(splitLineArray[2]);
+                    PassengerRepository passengerRepository = new PassengerRepositoryImpl();
+                    Passenger passenger = passengerRepository.getById(passengerId);
+
+                    return new Ticket(
+                            flightId,
+                            flight,
+                            passenger,
+                            clsInTicket
+                    );
+                }
+            }
+        }
+
         return null;
     }
 }
