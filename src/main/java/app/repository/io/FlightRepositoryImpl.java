@@ -171,13 +171,13 @@ public class FlightRepositoryImpl implements FlightRepository{
                 if(strIdForCompare.equals(listWithFlightSplitArray[0])) {
                     if(cls.equals("E")) {
                         int changedEconomCapacity = Integer.parseInt(listWithFlightSplitArray[4]);
-                        changedEconomCapacity--;
+                        if(changedEconomCapacity>=1) changedEconomCapacity--;
                         listWithFlights.set(i, listWithFlightSplitArray[0] + "," + listWithFlightSplitArray[1] + "," +
                         listWithFlightSplitArray[2] + "," + listWithFlightSplitArray[3] + "," +
                         changedEconomCapacity + "," + listWithFlightSplitArray[5] + "," + listWithFlightSplitArray[6]);
                     } else if (cls.equals("B")){
                         int changedBusinessCapacity = Integer.parseInt(listWithFlightSplitArray[5]);
-                        changedBusinessCapacity--;
+                        if(changedBusinessCapacity>=1) changedBusinessCapacity--;
                         listWithFlights.set(i, listWithFlightSplitArray[0] + "," + listWithFlightSplitArray[1] + "," +
                                 listWithFlightSplitArray[2] + "," + listWithFlightSplitArray[3] + "," +
                                 listWithFlightSplitArray[4] + "," + changedBusinessCapacity + ","
