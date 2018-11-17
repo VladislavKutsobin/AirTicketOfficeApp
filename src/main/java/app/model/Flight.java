@@ -1,5 +1,6 @@
 package main.java.app.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Flight extends BaseEntity {
@@ -9,6 +10,7 @@ public class Flight extends BaseEntity {
     private int economClsCapacity;
     private int businessClsCapacity;
     private String date;
+
 
     public Flight(int id, String departurePoint, String arrivalPoint, String plane, int economClsCapacity, int businessClsCapacity, String date) {
         super(id);
