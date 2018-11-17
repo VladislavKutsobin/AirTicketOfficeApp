@@ -4,6 +4,8 @@ import com.sun.xml.internal.bind.v2.TODO;
 import main.java.app.model.Flight;
 import main.java.app.repository.FlightRepository;
 
+import java.net.Inet4Address;
+import java.util.Date;
 import java.util.List;
 import java.io.*;
 import java.util.ArrayList;
@@ -111,6 +113,70 @@ public class FlightRepositoryImpl implements FlightRepository{
         }
 
         return flightsByDateList;
+    }
+
+    @Override
+    public List<Flight> searcheByAllParams(String departurePoint, String arrivalPoint, String startDate, String endDate)
+            throws IOException {
+        File fileWithFlights = new File(FILE_PATH_FLIGHTS);
+        FileReader fr = new FileReader(fileWithFlights);
+        List<Flight> flightsByParamsList = new ArrayList<>();
+        List<String> flightByDepartureAndArrival = new ArrayList<>();
+        String line;
+        String[] startDateArray = startDate.split(":");
+        String[] endDateArray = endDate.split(":");
+        int startDateDay = Integer.parseInt(startDateArray[0]);
+        int startDateMonth = Integer.parseInt(startDateArray[1]);
+        int startDateYear = Integer.parseInt(startDateArray[2]);
+        int endDateDay = Integer.parseInt(endDateArray[0]);
+        int endDateMonth = Integer.parseInt(endDateArray[1]);
+        int endDateYear = Integer.parseInt(endDateArray[2]);
+
+        try(BufferedReader br = new BufferedReader(fr)) {
+            while((line = br.readLine())!=null) {
+                String[] lineSplitArray = line.split(",");
+
+                if((lineSplitArray[1].equals(departurePoint)) && (lineSplitArray[2].equals(arrivalPoint))) {
+                    flightByDepartureAndArrival.add(line);
+                } else {
+                    continue;
+                }
+            }
+
+            for(String lineInArray : flightByDepartureAndArrival) {
+                String[] lineInArraySplit = lineInArray.split(",");
+                String[] flightDateSplitOnDDMMYY = lineInArraySplit[6].split(":");
+
+                int flightId = Integer.parseInt(lineInArraySplit[0]);
+                String flightDeparturePoint = lineInArraySplit[1];
+                String flightArrivalPoint = lineInArraySplit[2];
+                String flightPlaneInfo = lineInArraySplit[3];
+                int flightEconomClsCapacity = Integer.parseInt(lineInArraySplit[4]);
+                int flightBusinessClsCapacity = Integer.parseInt(lineInArraySplit[5]);
+                String flightDate = lineInArraySplit[6];
+
+                int day = Integer.parseInt(flightDateSplitOnDDMMYY[0]);
+                int month = Integer.parseInt(flightDateSplitOnDDMMYY[1]);
+                int year = Integer.parseInt(flightDateSplitOnDDMMYY[2]);
+
+                if((day>=startDateDay) && (day<=endDateDay)) {
+                    if((month>=startDateMonth) && (month<=endDateMonth)) {
+                        if((year>=startDateYear) && (year<=endDateYear)) {
+                            flightsByParamsList.add(new Flight(
+                                    flightId,
+                                    flightDeparturePoint,
+                                    flightArrivalPoint,
+                                    flightPlaneInfo,
+                                    flightEconomClsCapacity,
+                                    flightBusinessClsCapacity,
+                                    flightDate
+                            ));
+                        }
+                    }
+                }
+            }
+        }
+        return flightsByParamsList;
     }
 
     @Override
