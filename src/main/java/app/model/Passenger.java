@@ -5,6 +5,10 @@ public class Passenger extends BaseEntity {
     private String lastName;
     private int age;
 
+    public Passenger() {
+
+    }
+
     public Passenger(int id, String firstName, String lastName, int age) {
         super(id);
         this.firstName = firstName;

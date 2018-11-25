@@ -11,6 +11,9 @@ public class Flight extends BaseEntity {
     private int businessClsCapacity;
     private String date;
 
+    public Flight() {
+
+    }
 
     public Flight(int id, String departurePoint, String arrivalPoint, String plane, int economClsCapacity, int businessClsCapacity, String date) {
         super(id);
