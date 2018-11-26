@@ -33,10 +33,16 @@ public class FlightController {
     public Flight getById(Integer integer) throws IOException {
         if(integer == null || integer < 0) {
             throw new IllegalArgumentException();
-        } else {
-            flightRepository.getById(integer);
         }
-        return null;
+        return flightRepository.getById(integer);
     }
 
+    public List<Flight> searchByParams(String departurePoint, String arrivalPoint, String startDate, String endDate)
+        throws IOException {
+        if(departurePoint == null || arrivalPoint == null || startDate == null || endDate == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return flightRepository.searcheByAllParams(departurePoint, arrivalPoint, startDate, endDate);
+    }
 }

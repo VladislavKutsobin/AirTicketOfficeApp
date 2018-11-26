@@ -123,7 +123,7 @@ public class TicketRepositoryImpl implements TicketRepository {
                     Passenger passenger = passengerRepository.getById(passengerId);
 
                     return new Ticket(
-                            flightId,
+                            ticketId,
                             flight,
                             passenger,
                             clsInTicket

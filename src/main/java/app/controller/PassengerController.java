@@ -33,9 +33,7 @@ public class PassengerController {
     public Passenger getById(Integer integer) throws IOException {
         if(integer == null || integer < 0) {
             throw new IllegalArgumentException();
-        } else {
-            passengerRepository.getById(integer);
-        }
-        return null;
+            }
+        return passengerRepository.getById(integer);
     }
 }
