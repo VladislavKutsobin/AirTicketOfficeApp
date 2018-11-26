@@ -8,6 +8,10 @@ public class Ticket extends BaseEntity {
     private String dateCreated;
     String cls;
 
+    public Ticket() {
+
+    }
+
     public Ticket(int id, Flight flight, Passenger passenger, String cls) {
         super(id);
         this.flight = flight;
@@ -43,5 +47,10 @@ public class Ticket extends BaseEntity {
 
     public void setCls(String cls) {
         this.cls = cls;
+    }
+
+    @Override
+    public String toString() {
+        return super.getId() + "," + flight + "," + passenger + "," + cls;
     }
 }

@@ -39,4 +39,9 @@ public class Passenger extends BaseEntity {
     public void setAge(int age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return super.getId() + "," + firstName + "," + lastName + "," + age;
+    }
 }
